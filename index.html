@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+
+
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    
+        
+        <!-- Menú desplegable para insertar columnas -->
+        <div class="controls">
+            <div class="dropdown">
+                <button class="dropdown-btn" id="insertBtn">Insertar ▼</button>
+                <div class="dropdown-content" id="dropdownContent">
+                    <label><input type="checkbox" value="photo" checked> Photo</label>
+                    <label><input type="checkbox" value="firstName" checked> First Name</label>
+                    <label><input type="checkbox" value="lastName" checked> Last Name</label>
+                    <label><input type="checkbox" value="affiliation" checked> Club Affiliation</label>
+                    <label><input type="checkbox" value="highlights"> Highlights</label>
+                    <label><input type="checkbox" value="previousRanking"> Previous Year Tournament Ranking</label>
+                    <label><input type="checkbox" value="roundScore"> Full Round Score</label>
+                    <label><input type="checkbox" value="scorePar"> Winning Score vs Par</label>
+                </div>
+            </div>
+            
+            <!-- Control para seleccionar ronda -->
+            <div class="round-selector" id="roundSelector" style="display: none;">
+                <label for="roundSelect">Round select:</label>
+                <select id="roundSelect">
+                    <option value="1">Round 1</option>
+                    <option value="2">Round 2</option>
+                    <option value="3">Round 3</option>
+                    <option value="4">Round 4</option>
+                </select>
+            </div>
+            
+            <button class="refresh-btn" id="refreshBtn">Update Table</button>
+        </div>
+
+        <!-- Loading indicator -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading Golf Genius data...</p>
+        </div>
+
+        <!-- Error message -->
+        <div class="error" id="error" style="display: none;">
+            <p>Error loading data. Please try again.</p>
+        </div>
+
+        <!-- Tabla de datos -->
+        <div class="table-container">
+            <table id="golfTable">
+                <thead id="tableHead">
+                    <!-- Headers se generan dinámicamente -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Datos se cargan dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
