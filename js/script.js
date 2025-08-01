@@ -1,6 +1,6 @@
 // Configuración global
 const API_CONFIG = {
-    baseUrl: 'api_proxy.php',
+    baseUrl: 'php/api_proxy.php',
     endpoints: {
         players: 'players',
         masterRoster: 'master_roster',
