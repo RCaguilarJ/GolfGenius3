@@ -1,4 +1,9 @@
-# Golf Genius Dashboard
+# Golf Genius Dashboard 
+
+
+versión 2025-08-01
+
+
 
 Dashboard interactivo para visualizar datos de jugadores de Golf Genius con columnas personalizables.
 
@@ -147,5 +152,3 @@ http://localhost/golfGeniuso3/
 - [ ] Más opciones de personalización visual
 - [ ] Cache de datos para mejor performance
 
-
-versión 2025-08-01

@@ -21,7 +21,7 @@ const appState = {
 // Mapeo de columnas
 const COLUMN_CONFIG = {
     photo: {
-        header: 'Foto',
+        header: 'Photo',
         width: '80px',
         render: (player) => {
             if (player.photo && player.photo !== '' && player.photo !== null) {
@@ -33,27 +33,27 @@ const COLUMN_CONFIG = {
         }
     },
     firstName: {
-        header: 'Nombre',
+        header: 'First Name',
         width: 'auto',
         render: (player) => player.firstName || '-'
     },
     lastName: {
-        header: 'Apellido',
+        header: 'Last Name',
         width: 'auto',
         render: (player) => player.lastName || '-'
     },
     affiliation: {
-        header: 'Afiliación al Club',
+        header: 'Club Affiliation',
         width: 'auto',
-        render: (player) => `<span class="affiliation">${player.affiliation || 'Sin afiliación'}</span>`
+        render: (player) => `<span class="affiliation">${player.affiliation || 'No affiliation'}</span>`
     },
     highlights: {
-        header: 'Resúmenes',
+        header: 'Highlights',
         width: '200px',
-        render: (player) => `<div class="highlights">${player.highlights || 'Sin información disponible'}</div>`
+        render: (player) => `<div class="highlights">${player.highlights || 'No information available'}</div>`
     },
     previousRanking: {
-        header: 'Clasificación Año Anterior',
+        header: 'Previous Year Tournament Ranking',
         width: '120px',
         render: (player) => {
             if (player.previousRanking) {
@@ -63,7 +63,7 @@ const COLUMN_CONFIG = {
         }
     },
     roundScore: {
-        header: 'Puntuación Ronda',
+        header: 'Full Round Score',
         width: '120px',
         render: (player) => {
             const score = player.rounds && player.rounds[appState.selectedRound - 1];
@@ -74,7 +74,7 @@ const COLUMN_CONFIG = {
         }
     },
     scorePar: {
-        header: 'Score vs Par',
+        header: 'Winning Score vs Par',
         width: '120px',
         render: (player) => {
             const par = 72; // Par estándar

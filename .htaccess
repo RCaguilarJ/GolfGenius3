@@ -1,10 +1,9 @@
 # Golf Genius Dashboard - Apache Configuration
 # Configuración de seguridad y optimización
 
-# Proteger archivos sensibles
+# Proteger archivos sensibles (Apache 2.4+ syntax)
 <FilesMatch "\.(md|log|txt)$">
-    Order Allow,Deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Headers de seguridad
