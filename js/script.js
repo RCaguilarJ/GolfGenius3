@@ -13,7 +13,24 @@ const API_CONFIG = {
 // Estado de la aplicación
 const appState = {
     players: [],
-    selectedColumns: ['photo', 'firstName', 'lastName', 'affiliation'],
+    selectedColumns: [
+        'photo',
+        'firstName',
+        'lastName',
+        'affiliation',
+        'position',
+        'score',
+        'rounds',
+        'highlights',
+        'previousRanking',
+        'email',
+        'handicap',
+        'field',
+        'entry_number',
+        'phone',
+        'city',
+        'state'
+    ],
     selectedRound: 1,
     isLoading: false
 };
@@ -24,11 +41,15 @@ const COLUMN_CONFIG = {
         header: 'Photo',
         width: '80px',
         render: (player) => {
-            if (player.photo && player.photo !== '' && player.photo !== null) {
+            const initials = `${player.firstName?.charAt(0) || ''}${player.lastName?.charAt(0) || ''}`;
+            const backgroundColor = generateAvatarColor(initials);
+            const avatar = `<div class="player-avatar" style="background-color: ${backgroundColor};">${initials}</div>`;
+
+            if (player.photo && player.photo.startsWith('http')) {
                 return `<img src="${player.photo}" alt="${player.firstName} ${player.lastName}" class="player-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="player-photo placeholder" style="display:none;">${(player.firstName?.charAt(0) || '')}${(player.lastName?.charAt(0) || '')}</div>`;
+                        <div class="player-avatar" style="background-color: ${backgroundColor}; display: none;">${initials}</div>`;
             } else {
-                return `<div class="player-photo placeholder">${(player.firstName?.charAt(0) || '')}${(player.lastName?.charAt(0) || '')}</div>`;
+                return avatar;
             }
         }
     },
@@ -96,6 +117,56 @@ const COLUMN_CONFIG = {
             }
             return '-';
         }
+    },
+    position: {
+        header: 'Position',
+        width: 'auto',
+        render: (player) => player.position || '-'
+    },
+    score: {
+        header: 'Score',
+        width: 'auto',
+        render: (player) => player.score || '-'
+    },
+    rounds: {
+        header: 'Rounds',
+        width: 'auto',
+        render: (player) => player.rounds ? player.rounds.join(', ') : '-'
+    },
+    email: {
+        header: 'Email',
+        width: 'auto',
+        render: (player) => player.email || '-'
+    },
+    handicap: {
+        header: 'Handicap',
+        width: 'auto',
+        render: (player) => player.handicap || '-'
+    },
+    field: {
+        header: 'Field',
+        width: 'auto',
+        render: (player) => player.field || '-'
+    },
+    entry_number: {
+        header: 'Entry Number',
+        width: 'auto',
+        render: (player) => player.entry_number || '-'
+    },
+    phone: {
+        header: 'Phone',
+        width: 'auto',
+        render: (player) => player.phone || '-'
+    },
+    city: {
+        header: 'City',
+        width: 'auto',
+        render: (player) => player.city || '-'
+    },
+    state: {
+        header: 'State',
+        width: 'auto',
+        render: (player) => player.state || '-'
     }
 };
 
@@ -113,10 +184,12 @@ function setupEventListeners() {
     // Dropdown toggle
     const insertBtn = document.getElementById('insertBtn');
     const dropdownContent = document.getElementById('dropdownContent');
-    
+
     insertBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        console.log('Botón Select Columns clickeado');
         dropdownContent.classList.toggle('show');
+        console.log('Clase aplicada:', dropdownContent.classList.contains('show'));
     });
 
     // Cerrar dropdown al hacer click fuera
@@ -132,7 +205,21 @@ function setupEventListeners() {
     // Checkboxes de columnas
     const checkboxes = dropdownContent.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', handleColumnToggle);
+        checkbox.addEventListener('change', function(e) {
+            const column = e.target.value;
+            const isChecked = e.target.checked;
+
+            if (isChecked) {
+                if (!appState.selectedColumns.includes(column)) {
+                    appState.selectedColumns.push(column);
+                }
+            } else {
+                appState.selectedColumns = appState.selectedColumns.filter(col => col !== column);
+            }
+
+            console.log('Columnas seleccionadas:', appState.selectedColumns);
+            renderTable();
+        });
     });
 
     // Selector de ronda
@@ -149,28 +236,6 @@ function setupEventListeners() {
     refreshBtn.addEventListener('click', loadInitialData);
 }
 
-function handleColumnToggle(e) {
-    const column = e.target.value;
-    const isChecked = e.target.checked;
-    
-    if (isChecked) {
-        if (!appState.selectedColumns.includes(column)) {
-            appState.selectedColumns.push(column);
-        }
-    } else {
-        appState.selectedColumns = appState.selectedColumns.filter(col => col !== column);
-    }
-    
-    // Mostrar/ocultar selector de ronda si es necesario
-    const roundSelector = document.getElementById('roundSelector');
-    const needsRoundSelector = appState.selectedColumns.includes('roundScore') || 
-                              appState.selectedColumns.includes('scorePar');
-    
-    roundSelector.style.display = needsRoundSelector ? 'flex' : 'none';
-    
-    renderTable();
-}
-
 async function loadInitialData() {
     try {
         setLoading(true);
@@ -179,6 +244,10 @@ async function loadInitialData() {
         const data = await fetchGolfGeniusData();
         appState.players = data;
         
+        console.log('Columnas seleccionadas:', appState.selectedColumns);
+        console.log('Datos de jugadores:', appState.players);
+        // Debug: Verificar datos de jugadores
+        console.log('Player Data:', appState.players);
         renderTable();
     } catch (error) {
         console.error('Error loading data:', error);
@@ -190,25 +259,78 @@ async function loadInitialData() {
 
 async function fetchGolfGeniusData() {
     try {
-        const response = await fetch(API_CONFIG.baseUrl + '?endpoint=players');
-        
+        const response = await fetch(`${API_CONFIG.baseUrl}?endpoint=players`);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         // Si la API devuelve un error
         if (data.error) {
+            console.error(`Error del servidor: ${data.error}`);
+            console.info('Endpoints disponibles:', data.available_endpoints);
             throw new Error(data.error);
         }
-        
+
         return data.players || data || getSampleData();
     } catch (error) {
         console.warn('API not available, using sample data:', error.message);
         return getSampleData();
     }
 }
+
+// Función para obtener opciones de columnas desde el backend
+async function fetchTableOptions() {
+    try {
+        const response = await fetch(`${API_CONFIG.baseUrl}?action=getTableOptions`);
+        if (!response.ok) {
+            throw new Error('Error al obtener las opciones de la tabla');
+        }
+        const responseText = await response.text();
+        console.log('Respuesta del servidor (raw):', responseText);
+
+        // Filtrar y extraer el JSON válido
+        const jsonMatch = responseText.match(/\[.*\]/s);
+        if (!jsonMatch) {
+            throw new Error('Formato de respuesta inválido: No se encontró un array JSON');
+        }
+
+        let options;
+        try {
+            options = JSON.parse(jsonMatch[0]);
+        } catch (parseError) {
+            throw new Error(`Error al parsear JSON: ${parseError.message}`);
+        }
+
+        // Actualizar el menú desplegable
+        const dropdownContent = document.getElementById('dropdownContent');
+        if (!dropdownContent) {
+            console.error('Elemento dropdownContent no encontrado');
+            return;
+        }
+        dropdownContent.innerHTML = '';
+        options.forEach(option => {
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="checkbox" value="${option}" checked> ${COLUMN_CONFIG[option]?.header || option}`;
+            dropdownContent.appendChild(label);
+        });
+
+        // Actualizar columnas seleccionadas
+        appState.selectedColumns = options;
+
+        // Renderizar la tabla con las nuevas columnas
+        renderTable();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Llamar a la función al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    fetchTableOptions();
+});
 
 function getSampleData() {
     return [
@@ -329,6 +451,13 @@ function showError() {
 function hideError() {
     const errorElement = document.getElementById('error');
     errorElement.style.display = 'none';
+}
+
+// Helper function to generate avatar colors
+function generateAvatarColor(initials) {
+    const colors = ['#FFD700', '#ADFF2F', '#FF69B4', '#87CEEB', '#FFA07A'];
+    const index = (initials.charCodeAt(0) + initials.charCodeAt(1)) % colors.length;
+    return colors[index];
 }
 
 // Utilidades para debugging

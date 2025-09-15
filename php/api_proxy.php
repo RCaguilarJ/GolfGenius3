@@ -199,6 +199,30 @@ class GolfGeniusAPI {
     }
     
     /**
+     * Obtiene las opciones relevantes para la tabla
+     */
+    public function getTableOptions() {
+        return [
+            'photo',
+            'firstName',
+            'lastName',
+            'affiliation',
+            'position',
+            'score',
+            'rounds',
+            'highlights',
+            'previousRanking',
+            'email',
+            'handicap',
+            'field',
+            'entry_number',
+            'phone',
+            'city',
+            'state'
+        ];
+    }
+    
+    /**
      * Formatea los datos del master roster
      */
     private function formatMasterRosterData($data) {
@@ -245,6 +269,13 @@ class GolfGeniusAPI {
             
             // Validar que sea una URL válida
             $photo = filter_var($photo, FILTER_VALIDATE_URL) ? $photo : '';
+            
+            // Generar avatar con iniciales si no hay foto disponible
+            if (empty($photo)) {
+                $firstNameInitial = !empty($member['firstName']) ? strtoupper($member['firstName'][0]) : '';
+                $lastNameInitial = !empty($member['lastName']) ? strtoupper($member['lastName'][0]) : '';
+                $photo = $firstNameInitial . $lastNameInitial;
+            }
             
             // Extraer afiliación
             $affiliation = $member['custom_fields']['Affiliation'] ?? 
@@ -603,85 +634,145 @@ class GolfGeniusAPI {
     public function getScores($tournamentId, $round = null) {
         return ['scores' => []];
     }
+    
+    /**
+     * Adapta y normaliza la lógica de mapeo de datos de jugadores
+     */
+    private function adaptMappingLogic($data) {
+        // Ejemplo de adaptación: Asegurar que todos los nombres de los jugadores estén recortados y capitalizados
+        foreach ($data as &$player) {
+            if (isset($player['firstName'])) {
+                $player['firstName'] = ucfirst(trim($player['firstName']));
+            }
+            if (isset($player['lastName'])) {
+                $player['lastName'] = ucfirst(trim($player['lastName']));
+            }
+
+            // Adaptación adicional: Validar y normalizar direcciones de correo electrónico
+            if (isset($player['email']) && !filter_var($player['email'], FILTER_VALIDATE_EMAIL)) {
+                $player['email'] = '';
+            }
+
+            // Asegurar que las URL de las fotos sean válidas o proporcionar un marcador de posición predeterminado
+            if (empty($player['photo']) || !filter_var($player['photo'], FILTER_VALIDATE_URL)) {
+                $player['photo'] = $this->generatePlaceholderPhoto($player['firstName'], $player['lastName']);
+            }
+        }
+
+        return $data;
+    }
 }
 
-// Manejo de las peticiones
-try {
-    $api = new GolfGeniusAPI();
-    $endpoint = $_GET['endpoint'] ?? '';
-    $response = ['error' => 'Endpoint no válido'];
-    
-    switch ($endpoint) {
-        case 'players':
-            $tournamentId = $_GET['tournament_id'] ?? null;
-            $players = $api->getPlayers($tournamentId);
-            $response = [
-                'success' => true,
-                'players' => $players,
-                'count' => count($players)
-            ];
-            break;
-            
-        case 'master_roster':
-            $players = $api->getMasterRoster();
-            $response = [
-                'success' => true,
-                'players' => $players,
-                'count' => count($players)
-            ];
-            break;
-            
-        case 'tournament':
-            $eventId = $_GET['event_id'] ?? '10733818833262361649';
-            $roundId = $_GET['round_id'] ?? '10733997704590933397';
-            $tournamentId = $_GET['tournament_id'] ?? '11025765214984354975';
-            
-            $tournamentData = $api->getTournamentData($eventId, $roundId, $tournamentId);
-            $response = [
-                'success' => true,
-                'tournament_data' => $tournamentData
-            ];
-            break;
-            
-        case 'tournaments':
-            $tournaments = $api->getTournaments();
-            $response = [
-                'success' => true,
-                'tournaments' => $tournaments
-            ];
-            break;
-            
-        case 'scores':
-            $tournamentId = $_GET['tournament_id'] ?? null;
-            $round = $_GET['round'] ?? null;
-            
-            if (!$tournamentId) {
-                $response = ['error' => 'tournament_id es requerido'];
+// Función principal para manejar la lógica de la API
+function main_logic() {
+    try {
+        $api = new GolfGeniusAPI();
+        $endpoint = $_GET['endpoint'] ?? '';
+        $response = ['error' => 'Endpoint no válido'];
+        
+        switch ($endpoint) {
+            case 'players':
+                $tournamentId = $_GET['tournament_id'] ?? null;
+                $players = $api->getPlayers($tournamentId);
+                $response = [
+                    'success' => true,
+                    'players' => $players,
+                    'count' => count($players)
+                ];
                 break;
-            }
-            
-            $scores = $api->getScores($tournamentId, $round);
-            $response = [
-                'success' => true,
-                'scores' => $scores
-            ];
-            break;
-            
-        default:
-            $response = [
-                'error' => 'Endpoint no válido',
-                'available_endpoints' => ['players', 'master_roster', 'tournament', 'tournaments', 'scores']
-            ];
+                
+            case 'master_roster':
+                $players = $api->getMasterRoster();
+                $response = [
+                    'success' => true,
+                    'players' => $players,
+                    'count' => count($players)
+                ];
+                break;
+                
+            case 'tournament':
+                $eventId = $_GET['event_id'] ?? '10733818833262361649';
+                $roundId = $_GET['round_id'] ?? '10733997704590933397';
+                $tournamentId = $_GET['tournament_id'] ?? '11025765214984354975';
+                
+                $tournamentData = $api->getTournamentData($eventId, $roundId, $tournamentId);
+                $response = [
+                    'success' => true,
+                    'tournament_data' => $tournamentData
+                ];
+                break;
+                
+            case 'tournaments':
+                $tournaments = $api->getTournaments();
+                $response = [
+                    'success' => true,
+                    'tournaments' => $tournaments
+                ];
+                break;
+                
+            case 'scores':
+                $tournamentId = $_GET['tournament_id'] ?? null;
+                $round = $_GET['round'] ?? null;
+                
+                if (!$tournamentId) {
+                    $response = ['error' => 'tournament_id es requerido'];
+                    break;
+                }
+                
+                $scores = $api->getScores($tournamentId, $round);
+                $response = [
+                    'success' => true,
+                    'scores' => $scores
+                ];
+                break;
+                
+            default:
+                if (!isset($_GET['action'])) {
+                    $response = [
+                        'error' => 'Endpoint no válido. Si intenta obtener opciones, use el parámetro ?action=getTableOptions',
+                        'available_endpoints' => ['players', 'master_roster', 'tournament', 'tournaments', 'scores']
+                    ];
+                }
+                break;
+        }
+        
+    } catch (Exception $e) {
+        $response = [
+            'error' => 'Error del servidor: ' . $e->getMessage(),
+            'success' => false
+        ];
+        http_response_code(500);
     }
     
-} catch (Exception $e) {
-    $response = [
-        'error' => 'Error del servidor: ' . $e->getMessage(),
-        'success' => false
-    ];
-    http_response_code(500);
+    // Devolver respuesta JSON para endpoints principales (solo si no es una acción)
+    if (!isset($_GET['action'])) {
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
 }
 
-// Devolver respuesta JSON
-echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+// Manejo de acciones basadas en parámetros
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+    $api = new GolfGeniusAPI();
+
+    switch ($action) {
+        case 'getTableOptions':
+            header('Content-Type: application/json; charset=utf-8');
+            $options = $api->getTableOptions();
+            echo json_encode($options, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            exit();
+
+        default:
+            http_response_code(400);
+            echo json_encode([
+                'error' => 'Acción no válida',
+                'available_actions' => ['getTableOptions']
+            ]);
+            exit();
+    }
+}
+
+// Ejecutar la lógica principal solo si no hay 'action'
+main_logic();
+
 ?>

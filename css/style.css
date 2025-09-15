@@ -36,7 +36,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -189,26 +189,29 @@ h1 {
 
 /* Tabla */
 .table-container {
+    width: 100%;
+    overflow-x: auto;
     background: white;
     border-radius: 0px;
-    overflow: hidden;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 #golfTable {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    table-layout: fixed;
+}
+
+#golfTable th, #golfTable td {
+    text-align: center;
+    padding: 10px;
+    word-wrap: break-word;
 }
 
 #golfTable th {
-    background-color: var(--blue-zodiac-800);
+    background-color: #003366;
     color: white;
-    padding: 15px 12px;
-    text-align: left;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: bold;
 }
 
 #golfTable td {
@@ -223,29 +226,18 @@ h1 {
 }
 
 #golfTable tr:nth-child(even) {
-    background-color: var(--blue-zodiac-50);
+    background-color: #f9f9f9;
 }
 
-#golfTable tr:nth-child(even):hover {
-    background-color: var(--blue-zodiac-200);
+#golfTable tr:nth-child(odd) {
+    background-color: #ffffff;
 }
 
-/* Foto del jugador */
 .player-photo {
-    width: 50px;
-    height: 50px;
+    max-width: 50px;
+    max-height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #ecf0f1;
-}
-
-.player-photo.placeholder {
-    background-color: #bdc3c7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #7f8c8d;
-    font-weight: bold;
 }
 
 /* Afiliación */
@@ -259,7 +251,7 @@ h1 {
     font-weight: bold;
     padding: 4px 8px;
     border-radius: 4px;
-    color: white;
+    color: #204CAD;
     text-align: center;
 }
 
@@ -291,6 +283,39 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Avatares de jugadores */
+.player-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    background-color: #ccc; /* Color de fondo por defecto */
+}
+
+/* Colores personalizados para avatares */
+.player-avatar[data-color="green"] {
+    background-color: #4CAF50;
+    color: #fff;
+}
+.player-avatar[data-color="yellow"] {
+    background-color: #FFEB3B;
+    color: #000;
+}
+.player-avatar[data-color="orange"] {
+    background-color: #FF9800;
+    color: #fff;
+}
+
+.player-avatar[data-color="dark-green"] {
+    background-color: #2E7D32;
+    color: #fff;
 }
 
 /* Responsive */
