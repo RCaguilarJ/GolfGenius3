@@ -10,6 +10,9 @@ const API_CONFIG = {
     }
 };
 
+// Standard text to show when a field is missing in the data
+const MISSING_DATA_TEXT = 'not found';
+
 // Estado de la aplicación
 const appState = {
     players: [],
@@ -56,12 +59,12 @@ const COLUMN_CONFIG = {
     firstName: {
         header: 'First Name',
         width: 'auto',
-        render: (player) => player.firstName || '-'
+        render: (player) => player.firstName || MISSING_DATA_TEXT
     },
     lastName: {
         header: 'Last Name',
         width: 'auto',
-        render: (player) => player.lastName || '-'
+        render: (player) => player.lastName || MISSING_DATA_TEXT
     },
     affiliation: {
         header: 'Club Affiliation',
@@ -80,7 +83,7 @@ const COLUMN_CONFIG = {
             if (player.previousRanking) {
                 return `<span class="ranking">${player.previousRanking}</span>`;
             }
-            return '-';
+            return MISSING_DATA_TEXT;
         }
     },
     roundScore: {
@@ -91,7 +94,7 @@ const COLUMN_CONFIG = {
             if (score) {
                 return `<span class="score">${score}</span>`;
             }
-            return '-';
+            return MISSING_DATA_TEXT;
         }
     },
     scorePar: {
@@ -115,58 +118,58 @@ const COLUMN_CONFIG = {
                 
                 return `<span class="score ${cssClass}">${displayScore}</span>`;
             }
-            return '-';
+            return MISSING_DATA_TEXT;
         }
     },
     position: {
         header: 'Position',
         width: 'auto',
-        render: (player) => player.position || '-'
+        render: (player) => player.position || MISSING_DATA_TEXT
     },
     score: {
         header: 'Score',
         width: 'auto',
-        render: (player) => player.score || '-'
+        render: (player) => player.score || MISSING_DATA_TEXT
     },
     rounds: {
         header: 'Rounds',
         width: 'auto',
-        render: (player) => player.rounds ? player.rounds.join(', ') : '-'
+        render: (player) => player.rounds ? player.rounds.join(', ') : MISSING_DATA_TEXT
     },
     email: {
         header: 'Email',
         width: 'auto',
-        render: (player) => player.email || '-'
+        render: (player) => player.email || MISSING_DATA_TEXT
     },
     handicap: {
         header: 'Handicap',
         width: 'auto',
-        render: (player) => player.handicap || '-'
+        render: (player) => player.handicap || MISSING_DATA_TEXT
     },
     field: {
         header: 'Field',
         width: 'auto',
-        render: (player) => player.field || '-'
+        render: (player) => player.field || MISSING_DATA_TEXT
     },
     entry_number: {
         header: 'Entry Number',
         width: 'auto',
-        render: (player) => player.entry_number || '-'
+        render: (player) => player.entry_number || MISSING_DATA_TEXT
     },
     phone: {
         header: 'Phone',
         width: 'auto',
-        render: (player) => player.phone || '-'
+        render: (player) => player.phone || MISSING_DATA_TEXT
     },
     city: {
         header: 'City',
         width: 'auto',
-        render: (player) => player.city || '-'
+        render: (player) => player.city || MISSING_DATA_TEXT
     },
     state: {
         header: 'State',
         width: 'auto',
-        render: (player) => player.state || '-'
+        render: (player) => player.state || MISSING_DATA_TEXT
     }
 };
 

@@ -398,6 +398,21 @@ h1 {
     .dropdown-btn {
         width: 100%;
     }
+
+/* Media queries for header font-size on different devices */
+/* "Monitor" breakpoint: large screens (desktop monitors) */
+@media (min-width: 1600px) {
+    #golfTable th {
+        font-size: 0.9rem; /* monitor: 0.9rem */
+    }
+}
+
+/* "Laptop" breakpoint: typical laptop screens */
+@media (min-width: 1024px) and (max-width: 1599px) {
+    #golfTable th {
+        font-size: 0.6rem; /* laptop: 0.6rem */
+    }
+}
     
     h1 {
         font-size: 1rem;
@@ -425,7 +440,7 @@ h1 {
     
     #golfTable {
         min-width: 600px;
-        font-size: 0.78rem; /* más compacto en pantallas pequeñas */
+        font-size: 0.6rem; /* más compacto en pantallas pequeñas */
     }
 
     #golfTable th {
@@ -446,5 +461,133 @@ h1 {
         width: 34px;
         height: 34px;
         font-size: 0.85rem;
+    }
+}
+
+/* Enhanced responsive rules to preserve table structure similar to the provided screenshot */
+/* Large monitors */
+@media (min-width: 1800px) {
+    .container {
+        padding: 24px 60px;
+    }
+    .table-container {
+        padding: 18px;
+    }
+    #golfTable {
+        min-width: 1600px; /* keep many columns visible, horizontal scroll will appear if viewport narrower */
+        font-size: 0.95rem;
+    }
+    #golfTable th {
+        font-size: 0.95rem;
+        padding: 14px 12px;
+        height: 72px;
+    }
+    .player-photo, .player-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 1.05rem;
+    }
+}
+
+/* Desktop / large laptop range */
+@media (min-width: 1366px) and (max-width: 1799px) {
+    #golfTable {
+        min-width: 1400px;
+        font-size: 0.88rem;
+    }
+    #golfTable th {
+        font-size: 0.8rem;
+        padding: 12px 10px;
+        height: 64px;
+    }
+    .player-photo, .player-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
+}
+
+/* Laptop (user requested small headers) */
+@media (min-width: 1024px) and (max-width: 1365px) {
+    #golfTable {
+        min-width: 1200px;
+        font-size: 0.78rem;
+    }
+    #golfTable th {
+        font-size: 0.6rem; /* laptop: compact headers */
+        padding: 10px 8px;
+        height: 56px;
+    }
+    .player-photo, .player-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+    .highlights {
+        max-width: 160px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    #golfTable {
+        min-width: 1000px;
+        font-size: 0.74rem;
+    }
+    #golfTable th {
+        font-size: 0.68rem;
+        padding: 10px 8px;
+        height: 56px;
+    }
+    .player-photo, .player-avatar {
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+    .highlights {
+        max-width: 140px;
+    }
+}
+
+/* Small screens / phones */
+@media (max-width: 767px) {
+    /* Keep a reasonable min-width so columns keep their order; allow horizontal scroll */
+    #golfTable {
+        min-width: 850px;
+        font-size: 0.72rem;
+    }
+    #golfTable th {
+        font-size: 0.68rem;
+        padding: 8px 6px;
+        height: 48px;
+    }
+    .player-photo, .player-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+    }
+    .highlights {
+        max-width: 120px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+/* Extra-small narrow devices */
+@media (max-width: 479px) {
+    #golfTable {
+        min-width: 720px;
+        font-size: 0.7rem;
+    }
+    #golfTable th {
+        font-size: 0.66rem;
+        padding: 6px 4px;
+        height: 44px;
+    }
+    .player-photo, .player-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
     }
 }
