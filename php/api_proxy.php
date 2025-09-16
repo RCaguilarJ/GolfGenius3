@@ -450,7 +450,7 @@ class GolfGeniusAPI {
                 
                 // Combinar highlights del torneo con datos del master roster
                 $masterHighlights = $masterData['highlights'] ?? '';
-                if (!empty($masterHighlights) && $masterHighlights !== 'Miembro registrado') {
+                if (!empty($masterHighlights) && $masterHighlights !== 'Registered member') {
                     $player['highlights'] = $player['highlights'] . '. ' . $masterHighlights;
                 }
             } else {
@@ -472,9 +472,9 @@ class GolfGeniusAPI {
         if (!empty($handicap) && is_numeric($handicap)) {
             $hcp = floatval($handicap);
             if ($hcp < 5) {
-                $highlights[] = 'Jugador scratch (HCP: ' . $handicap . ')';
+                $highlights[] = 'Scratch player (HCP: ' . $handicap . ')';
             } elseif ($hcp < 10) {
-                $highlights[] = 'Jugador single digit (HCP: ' . $handicap . ')';
+                $highlights[] = 'Single-digit handicap (HCP: ' . $handicap . ')';
             } else {
                 $highlights[] = 'Handicap: ' . $handicap;
             }
@@ -482,7 +482,7 @@ class GolfGeniusAPI {
         
         $field = $member['custom_fields']['Field'] ?? '';
         if (!empty($field)) {
-            $highlights[] = 'Campo: ' . htmlspecialchars($field, ENT_QUOTES, 'UTF-8');
+            $highlights[] = 'Course: ' . htmlspecialchars($field, ENT_QUOTES, 'UTF-8');
         }
         
         $proAm = $member['custom_fields']['Pro or Amateur'] ?? '';
@@ -490,7 +490,7 @@ class GolfGeniusAPI {
             $highlights[] = ucfirst(strtolower(htmlspecialchars($proAm, ENT_QUOTES, 'UTF-8')));
         }
         
-        return implode('. ', $highlights) ?: 'Miembro registrado';
+    return implode('. ', $highlights) ?: 'Registered member';
     }
     
     /**
@@ -500,28 +500,28 @@ class GolfGeniusAPI {
         $highlights = [];
         
         if (isset($player['position']) && strpos($player['position'], 'T1') !== false) {
-            $highlights[] = 'Líder del torneo';
+            $highlights[] = 'Tournament leader';
         }
         
         if (isset($player['score'])) {
             $score = $player['score'];
             if (strpos($score, '-') === 0) {
-                $highlights[] = 'Bajo par (' . $score . ')';
+                $highlights[] = 'Under par (' . $score . ')';
             }
         }
         
         // Verificar si tiene una ronda especialmente buena
         foreach ($player['rounds'] ?? [] as $round) {
-            if (is_array($round) && isset($round['total']) && intval($round['total']) < 70) {
-                $highlights[] = 'Ronda excepcional: ' . $round['total'];
+                if (is_array($round) && isset($round['total']) && intval($round['total']) < 70) {
+                $highlights[] = 'Exceptional round: ' . $round['total'];
                 break;
             } elseif (is_numeric($round) && intval($round) < 70) {
-                $highlights[] = 'Ronda excepcional: ' . $round;
+                $highlights[] = 'Exceptional round: ' . $round;
                 break;
             }
         }
         
-        return implode('. ', $highlights) ?: 'Jugador competitivo';
+        return implode('. ', $highlights) ?: 'Competitive player';
     }
     
     /**
@@ -592,7 +592,7 @@ class GolfGeniusAPI {
                 'email' => 'atfukuhara@yahoo.com',
                 'affiliation' => 'Olympic Club',
                 'photo' => 'https://via.placeholder.com/150x150/4CAF50/white?text=AF',
-                'highlights' => 'Campo: B. Entry Number: 83',
+                'highlights' => 'Course: B. Entry Number: 83',
                 'previousRanking' => 15,
                 'rounds' => [68, 71, 69, 72],
                 'field' => 'B',
@@ -604,7 +604,7 @@ class GolfGeniusAPI {
                 'lastName' => 'Applyby',
                 'affiliation' => 'Rancho Santa Fe Golf Club',
                 'photo' => '',
-                'highlights' => 'Mejor puntuación en par 3. Jugador consistente con gran short game.',
+                'highlights' => 'Best par-3 score. Consistent player with great short game.',
                 'previousRanking' => 23,
                 'rounds' => [72, 68, 74, 70]
             ],
@@ -614,7 +614,7 @@ class GolfGeniusAPI {
                 'lastName' => 'Byrum',
                 'affiliation' => 'Phoenix County Club',
                 'photo' => '',
-                'highlights' => 'Especialista en torneos de verano. Excelente bajo presión.',
+                'highlights' => 'Summer tournament specialist. Performs well under pressure.',
                 'previousRanking' => 8,
                 'rounds' => [70, 72, 68, 71]
             ]

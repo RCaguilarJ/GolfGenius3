@@ -36,17 +36,18 @@ body {
 }
 
 .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: none; /* allow full width */
+    width: 100%;
+    margin: 0;
+    padding: 20px 40px; /* keep inner spacing */
 }
 
 h1 {
     color: var(--blue-zodiac-800);
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 600;
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -54,7 +55,7 @@ h1 {
     text-align: center;
     color: #2c3e50;
     margin-bottom: 30px;
-    font-size: 2.5rem;
+    font-size: 12px;
 }
 
 /* Controles */
@@ -200,24 +201,78 @@ h1 {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+    font-size: 0.85rem; /* reducir tamaño general (≈13.6px base 16px) */
 }
 
 #golfTable th, #golfTable td {
     text-align: center;
-    padding: 10px;
+    padding: 10px 8px; /* reducir un poco el padding para filas más compactas */
     word-wrap: break-word;
+    line-height: 1.15; /* reduce wrapping y desalineado vertical */
+}
+
+/* Add subtle vertical dividers between columns */
+#golfTable th, #golfTable td {
+    border-right: 1px solid #eef3f7;
+}
+
+#golfTable th:last-child, #golfTable td:last-child {
+    border-right: none;
 }
 
 #golfTable th {
     background-color: #003366;
     color: white;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 0.9rem; /* reducir tamaño de cabeceras */
+    padding: 10px 8px;
+    letter-spacing: 0.4px;
+}
+
+/* Allow headers to wrap at word boundaries and keep uniform height */
+#golfTable th {
+    white-space: normal; /* allow wrapping but only at word boundaries */
+    overflow-wrap: break-word; /* wrap long labels if needed */
+    word-break: normal; /* avoid breaking words in the middle */
+    max-width: 220px; /* give headers room; adjust if needed */
+    padding: 12px 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Make header row consistent height while allowing multiple lines */
+#golfTable thead tr {
+    height: 56px; /* uniform header height */
+}
+
+/* Keep table scrollable horizontally on small screens */
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 #golfTable td {
-    padding: 12px;
+    padding: 10px 8px;
     border-bottom: 1px solid #ecf0f1;
     vertical-align: middle;
+}
+
+/* Center the photo/avatar column (assumed first column) */
+#golfTable th:first-child,
+#golfTable td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#golfTable td:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#golfTable td:first-child .player-photo,
+#golfTable td:first-child .player-avatar {
+    margin: 0; /* ensure centered inside the flex cell */
 }
 
 #golfTable tr:hover {
@@ -234,10 +289,11 @@ h1 {
 }
 
 .player-photo {
-    max-width: 50px;
-    max-height: 50px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
+    display: inline-block;
 }
 
 /* Afiliación */
@@ -287,16 +343,16 @@ h1 {
 
 /* Avatares de jugadores */
 .player-avatar {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    font-size: 18px;
-    font-weight: bold;
-    color: #000;
-    background-color: #ccc; /* Color de fondo por defecto */
+    font-size: 0.9rem; /* compacto dentro del avatar */
+    font-weight: 700;
+    color: #fff;
+    background-color: #6c63ff; /* valor por defecto agradable */
 }
 
 /* Colores personalizados para avatares */
@@ -344,21 +400,21 @@ h1 {
     }
     
     h1 {
-        font-size: 2rem;
+        font-size: 1rem;
     }
     
     #golfTable {
-        font-size: 12px;
+        font-size: 0.82rem; /* más compacto en tablet */
     }
-    
+
     #golfTable th,
     #golfTable td {
         padding: 8px 6px;
     }
-    
+
     .player-photo {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
     }
 }
 
@@ -369,5 +425,26 @@ h1 {
     
     #golfTable {
         min-width: 600px;
+        font-size: 0.78rem; /* más compacto en pantallas pequeñas */
+    }
+
+    #golfTable th {
+        font-size: 0.82rem;
+        padding: 8px 6px;
+    }
+
+    #golfTable td {
+        padding: 6px 4px;
+    }
+
+    .player-photo {
+        width: 34px;
+        height: 34px;
+    }
+
+    .player-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
     }
 }

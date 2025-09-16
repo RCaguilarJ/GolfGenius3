@@ -340,7 +340,7 @@ function getSampleData() {
             lastName: 'Anthony',
             affiliation: 'Olympic Club',
             photo: 'https://via.placeholder.com/50x50/4CAF50/white?text=JA',
-            highlights: 'Ganador del torneo regional 2024',
+            highlights: 'Regional tournament winner 2024',
             previousRanking: 15,
             rounds: [68, 71, 69, 72]
         },
@@ -350,7 +350,7 @@ function getSampleData() {
             lastName: 'Applyby',
             affiliation: 'Rancho Santa Fe Golf Club',
             photo: '',
-            highlights: 'Mejor puntuación en par 3',
+            highlights: 'Best par-3 score',
             previousRanking: 23,
             rounds: [72, 68, 74, 70]
         },
@@ -360,7 +360,7 @@ function getSampleData() {
             lastName: 'Byrum',
             affiliation: 'Phoenix County Club',
             photo: '',
-            highlights: 'Especialista en torneos de verano',
+            highlights: 'Summer tournament specialist',
             previousRanking: 8,
             rounds: [70, 72, 68, 71]
         },
@@ -370,7 +370,7 @@ function getSampleData() {
             lastName: 'Johnson',
             affiliation: 'Beverly Hills Country Club',
             photo: 'https://via.placeholder.com/50x50/2196F3/white?text=MJ',
-            highlights: 'Campeón estatal junior',
+            highlights: 'State junior champion',
             previousRanking: 12,
             rounds: [69, 73, 67, 74]
         },
@@ -380,7 +380,7 @@ function getSampleData() {
             lastName: 'Williams',
             affiliation: 'Pebble Beach Golf Links',
             photo: 'https://via.placeholder.com/50x50/FF9800/white?text=SW',
-            highlights: 'Récord femenino del club',
+            highlights: 'Club women\'s record holder',
             previousRanking: 5,
             rounds: [71, 69, 72, 68]
         }
