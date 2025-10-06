@@ -1,0 +1,323 @@
+/* Golf Genius Elementor Plugin Styles */
+
+/* Variables de colores - Paleta Blue Zodiac */
+.golf-genius-container {
+    /* Blue Zodiac Color Palette */
+    --blue-zodiac-50: #eff7ff;
+    --blue-zodiac-100: #dcecfd;
+    --blue-zodiac-200: #c0e0fd;
+    --blue-zodiac-300: #95cdfb;
+    --blue-zodiac-400: #63b0f7;
+    --blue-zodiac-500: #3e91f3;
+    --blue-zodiac-600: #2873e8;
+    --blue-zodiac-700: #205dd5;
+    --blue-zodiac-800: #204cad;
+    --blue-zodiac-900: #204388;
+    --blue-zodiac-950: #182a53;
+    
+    /* Alias para uso fácil */
+    --primary: var(--blue-zodiac-600);
+    --primary-light: var(--blue-zodiac-400);
+    --primary-dark: var(--blue-zodiac-800);
+    --background: var(--blue-zodiac-50);
+    --accent: var(--blue-zodiac-500);
+}
+
+/* Contenedor principal */
+.golf-genius-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--blue-zodiac-900);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.golf-genius-title {
+    color: var(--blue-zodiac-800);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Controles */
+.golf-genius-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+}
+
+/* Column Selector Dropdown */
+.golf-genius-column-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.golf-genius-columns-btn {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.golf-genius-columns-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.golf-genius-columns-dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    top: 100%;
+    left: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.golf-genius-columns-dropdown label {
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.golf-genius-columns-dropdown label:hover {
+    background-color: var(--blue-zodiac-50);
+}
+
+.golf-genius-columns-dropdown label:last-child {
+    border-bottom: none;
+}
+
+.golf-genius-columns-dropdown input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Refresh Button */
+.golf-genius-refresh-btn {
+    background-color: var(--blue-zodiac-500);
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.golf-genius-refresh-btn:hover {
+    background-color: var(--blue-zodiac-600);
+}
+
+/* Loading and Error States */
+.golf-genius-loading {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.golf-genius-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: golf-genius-spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes golf-genius-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.golf-genius-error {
+    text-align: center;
+    padding: 20px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f1aeb5;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Table Container */
+.golf-genius-table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Table Styles */
+.golf-genius-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 14px;
+}
+
+.golf-genius-table th,
+.golf-genius-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.golf-genius-table th {
+    background-color: var(--blue-zodiac-100);
+    font-weight: 600;
+    color: var(--blue-zodiac-800);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.golf-genius-table tbody tr:hover {
+    background-color: var(--blue-zodiac-50);
+}
+
+.golf-genius-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.golf-genius-table tbody tr:nth-child(even):hover {
+    background-color: var(--blue-zodiac-50);
+}
+
+/* Photo and Avatar Styles */
+.golf-genius-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.golf-genius-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--blue-zodiac-500);
+}
+
+/* Content Styles */
+.golf-genius-affiliation {
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+.golf-genius-score {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+.golf-genius-score.under-par {
+    background-color: #27ae60;
+}
+
+.golf-genius-score.par {
+    background-color: #f39c12;
+}
+
+.golf-genius-score.over-par {
+    background-color: #e74c3c;
+}
+
+.golf-genius-position {
+    font-weight: bold;
+    color: var(--blue-zodiac-800);
+}
+
+.golf-genius-ranking::before {
+    content: "#";
+}
+
+.golf-genius-highlights {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .golf-genius-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .golf-genius-columns-dropdown {
+        position: static;
+        display: block;
+        box-shadow: none;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    
+    .golf-genius-table {
+        font-size: 12px;
+    }
+    
+    .golf-genius-table th,
+    .golf-genius-table td {
+        padding: 8px 10px;
+    }
+    
+    .golf-genius-photo,
+    .golf-genius-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .golf-genius-highlights {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .golf-genius-table {
+        font-size: 11px;
+    }
+    
+    .golf-genius-table th,
+    .golf-genius-table td {
+        padding: 6px 8px;
+    }
+    
+    .golf-genius-photo,
+    .golf-genius-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
+}
